@@ -1,0 +1,246 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const localProjects = await getCollection('projects');
+---
+
+<Layout>
+  <button id="view-toggle-btn" aria-label="Switch Page">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+
+  <div id="side-label-right" class="side-label">My Work &rarr;</div>
+  <div id="side-label-left" class="side-label" style="display: none; opacity: 0;">&larr; About Me</div>
+
+  <div class="slider-window">
+    <div class="slider-track" id="main-track">
+      
+      <section class="screen-view">
+        <div class="content-wrapper">
+          <h1>InfelixUrsus' Portfolio</h1>
+          <p class="subtitle">Welcome to my interactive Astro & React space.</p>
+          
+          <div class="bio-card">
+            <h2>About Me</h2>
+            <p>I am a web developer focusing on crafting highly interactive web experiences using standard JavaScript, modern frameworks like Astro, and reactive UI components built with React.</p>
+            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);" />
+            <h3>Contact Info</h3>
+            <p style="margin-bottom: 0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px; color: #307cd3;">
+                <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7"></path>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                <path d="M2 17a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4H2z"></path>
+              </svg>
+                <a href="mailto:infelixursus@gmail.com" class="contact-link">infelixursus@gmail.com</a>
+              <br /><br />
+  🔗           <a href="https://github.com/InfelixUrsus" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/InfelixUrsus</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen-view">
+        <div class="content-wrapper">
+          <h2>My Showcased Work</h2>
+          <p class="subtitle">A collection of things I've built using clean data structures.</p>
+          
+          <div class="projects-grid">
+            {localProjects.map((project) => (
+              <div class="project-card">
+                <h3>{project.data.title}</h3>
+                <p>{project.data.description}</p>
+                <div class="tech-tags">
+                  {project.data.technologies.map((tech) => (
+                    <span class="tag">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script is:inline>
+    const btn = document.getElementById('view-toggle-btn');
+    const track = document.getElementById('main-track');
+    const labelRight = document.getElementById('side-label-right');
+    const labelLeft = document.getElementById('side-label-left');
+    
+    let currentScreen = 0; // 0 = Info, 1 = Work
+
+    btn.addEventListener('click', () => {
+      if (currentScreen === 0) {
+        // 1. Slide to Work screen
+        track.style.transform = 'translateX(-100vw)';
+        
+        // 2. Move button to the left
+        btn.style.right = 'auto';
+        btn.style.left = '20px';
+        btn.style.transform = 'translateY(-50%) rotate(180deg)';
+        
+        // 3. Swap the text hints smoothly
+        labelRight.style.opacity = '0';
+        setTimeout(() => {
+          labelRight.style.display = 'none';
+          labelLeft.style.display = 'block';
+          setTimeout(() => labelLeft.style.opacity = '1', 50);
+        }, 300);
+
+        currentScreen = 1;
+      } else {
+        // 1. Slide back to Info screen
+        track.style.transform = 'translateX(0vw)';
+        
+        // 2. Move button back to the right
+        btn.style.left = 'auto';
+        btn.style.right = '20px';
+        btn.style.transform = 'translateY(-50%) rotate(0deg)';
+        
+        // 3. Swap text hints back smoothly
+        labelLeft.style.opacity = '0';
+        setTimeout(() => {
+          labelLeft.style.display = 'none';
+          labelRight.style.display = 'block';
+          setTimeout(() => labelRight.style.opacity = '1', 50);
+        }, 300);
+
+        currentScreen = 0;
+      }
+    });
+  </script>
+</Layout>
+
+<style>
+  /* Base Layout Setups */
+  .slider-window {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .slider-track {
+    display: flex;
+    width: 200vw;
+    height: 100vh;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .screen-view {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    padding: 3rem 2rem;
+    font-family: sans-serif;
+  }
+
+  /* Floating Navigation Button Settings */
+  #view-toggle-btn {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  #view-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  }
+
+  /* NEW STYLES: Side Label Typography & Layout */
+  .side-label {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4);
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    z-index: 90;
+    pointer-events: none; /* Stops text layout from interfering with clicks */
+    transition: opacity 0.3s ease;
+  }
+
+  #side-label-right {
+    right: 85px; /* Sits perfectly next to the arrow button position */
+  }
+
+  #side-label-left {
+    left: 85px;
+  }
+
+  /* Component Visual Formatting */
+  .subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+  }
+
+  .bio-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2rem;
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    line-height: 1.6;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
+  }
+
+  .tech-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+</style>
