@@ -1,85 +1,45 @@
+---
+import '../styles/global.css'; 
+---
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-  <div id="scroll-bg"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Basics</title>
+  </head>
+  <body>
+    <div id="scroll-bg"></div>
+    <div id="diamond-grid"></div>
 
-  <slot />
+    <main id="main-content">
+      <slot />
+    </main>
 
-  <script is:inline>
-    const bg = document.getElementById('scroll-bg');
+    <script is:inline>
+      const bg = document.getElementById('scroll-bg');
 
-    window.addEventListener('scroll', () => {
-      // Calculate exactly how far down the user has scrolled as a percentage (0 to 1)
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = window.scrollY / maxScroll;
+      function handleScroll(e) {
+        const container = e.target;
+        const maxScroll = container.scrollHeight - container.clientHeight;
+        if (maxScroll <= 0) return; 
+        
+        const scrollPercent = container.scrollTop / maxScroll;
 
-      // --- COLOR SHIFT LOGIC ---
-      // Scrolling from 0% to 100%, smoothly transitions the hue
-      const hueShift = Math.floor(scrollPercent * 80); // shifts color spectrum dynamically
-      bg.style.background = `linear-gradient(${135 + (scrollPercent * 45)}deg, hsl(${240 + hueShift}, 47%, 20%) 0%, hsl(${222 - hueShift}, 47%, 10%) 100%)`;
+        const hueShift = Math.floor(scrollPercent * 80); 
+        bg.style.background = `linear-gradient(${135 + (scrollPercent * 45)}deg, hsl(${240 + hueShift}, 47%, 20%) 0%, hsl(${222 - hueShift}, 47%, 10%) 100%)`;
 
-      // MOVEMENT LOGIC
-      // Subtly scales and shifts the background up/down
-      const moveY = scrollPercent * -20; // moves up slightly
-      const scale = 1 + (scrollPercent * 0.05); // scales up by 5%
-      bg.style.transform = `translateY(${moveY}px) scale(${scale})`;
-    });
- 		</script>
-	</body>
+        const moveY = scrollPercent * -20; 
+        const scale = 1 + (scrollPercent * 0.05); 
+        bg.style.transform = `translateY(${moveY}px) scale(${scale})`;
+      }
+
+      document.querySelectorAll('.screen-view').forEach(panel => {
+        panel.addEventListener('scroll', handleScroll);
+      });
+    </script>
+  </body>
 </html>
-
-<style is:global>
-  html, body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden; /* Stops the main body window from breaking the slider track boundary */
-  font-family: sans-serif;
-  color: #fff;
-  
-}
-.screen-view {
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-
-  /* 👇 ADD THESE 4 LINES TO HIDE THE SEAM SCROLLBAR 👇 */
-  scrollbar-width: none;            /* For Firefox */
-  -ms-overflow-style: none;         /* For IE and Edge */
-}
-
-/* 👇 ADD THIS NEW BLOCK RIGHT BELOW IT FOR CHROME/SAFARI 👇 */
-.screen-view::-webkit-scrollbar {
-  display: none;
-}
-
-  /* This is the master background layer that stays fixed behind your content */
-  #scroll-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Pushes it completely behind your text and cards */
-    
-    /* Our initial starting gradient colors (Deep purple to dark blue) */
-    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-    
-    /* This makes the movement and color shifts feel like butter instead of snapping */
-    transition: background 0.4s ease-out, transform 0.2s ease-out;
-    will-change: background, transform;
-  }
-</style>
