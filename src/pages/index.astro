@@ -1,4 +1,5 @@
 ---
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
@@ -6,7 +7,17 @@ const localProjects = await getCollection('projects');
 ---
 
 <Layout>
-  <button id="view-toggle-btn" aria-label="Switch Page">
+  <div class="top-nav-controls">
+    <button id="global-lang-btn" class="nav-btn">Ελληνικά</button>
+    <a href="/admin" id="admin-portal-link" aria-label="Admin Panel">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </a>
+  </div>
+
+  <button id="view-toggle-btn" class="pointing-right" aria-label="Switch Page">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="15 18 9 12 15 6"></polyline>
     </svg>
@@ -20,32 +31,30 @@ const localProjects = await getCollection('projects');
       
       <section class="screen-view">
         <div class="content-wrapper">
-          <h1>InfelixUrsus' Portfolio</h1>
-          <p class="subtitle">This high-performance platform is built on <strong>Astro's island architecture</strong> for near-zero client-side JavaScript overhead, utilizing <strong>React</strong> to drive dynamic, real-time UI interactions seamlessly.</p>
-          
+          <h1 id="portfolio-title">InfelixUrsus' Portfolio</h1>          
           <div class="bio-card">
-            <h2>About Me</h2>
-            <p>I'm InfelixUrsus! I am an undergraduate Computer Science student at the <strong>University of Thessaly</strong>, focusing on applications in <strong>Biomedicine</strong>. I build software that spans from bare-metal hardware configuration to modern cloud-connected web interfaces.</p>
+            <h2 id="about-heading">About Me</h2>
+            <p id="about-intro">I'm InfelixUrsus! I am an undergraduate Computer Science student at the <strong>University of Thessaly</strong>, focusing on applications in <strong>Biomedicine</strong>. I build software that spans from bare-metal hardware configuration to modern cloud-connected web interfaces.</p>
 
             <p>
-              <strong>⚙️ Lower-Level Systems</strong><br />
-              Optimizing code with C, C++, and MIPS Assembly.
+              <strong id="sys-title">⚙️ Lower-Level Systems</strong><br />
+              <span id="sys-desc">Optimizing code with C, C++, and MIPS Assembly.</span>
             </p>
 
             <p>
-              <strong>🌐 Modern Web & Mobile</strong><br />
-              Crafting fluid user experiences with React, JavaScript, and native Android applications.
+              <strong id="web-title">🌐 Modern Web & Mobile</strong><br />
+              <span id="web-desc">Crafting fluid user experiences with React, JavaScript, and native Android applications.</span>
             </p>
 
             <p>
-              <strong>📊 Data Management</strong><br />
-              Designing clean architectures using SQL and Python.
+              <strong id="data-title">📊 Data Management</strong><br />
+              <span id="data-desc">Designing clean architectures using SQL and Python.</span>
             </p>
             
             <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);" />
-            <h3>Contact Info</h3>
+            <h3 id="contact-heading">Contact Info</h3>
             <p style="margin-bottom: 0;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px; color: #307cd3;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px; color: #a855f7;">
                 <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7"></path>
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                 <path d="M2 17a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4H2z"></path>
@@ -55,23 +64,35 @@ const localProjects = await getCollection('projects');
               🔗&nbsp;<a href="https://github.com/InfelixUrsus" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/InfelixUrsus</a>
             </p>
           </div>
+          <p class="subtitle" id="portfolio-architecture-subtitle">This high-performance platform is built on <strong>Astro's island architecture</strong> for near-zero client-side JavaScript overhead, utilizing <strong>React</strong> to drive dynamic, real-time UI interactions seamlessly.</p>
         </div>
       </section>
 
       <section class="screen-view">
         <div class="content-wrapper">
-          <h2>My Showcased Work</h2>
-          <p class="subtitle">A collection of things I've built using clean data structures.</p>
+          <h2 class="section-title" id="showcase-heading">My Showcased Work</h2>
+          <p class="subtitle" id="showcase-subtitle">A collection of things I've built using clean data structures.</p>
           
           <div class="projects-grid">
+            <a href="/examples/doctor" class="project-card-link">
+              <div class="project-card featured-card">
+                <span class="live-badge" id="preview-badge-text">Live Preview</span>
+                <h3 id="mockup-card-title">Dr. Alexandros Pappas Mockup</h3>
+                <p id="mockup-card-desc">A professional clinical dashboard and landing interface engineered for biomedical and cardiology practitioners.</p>
+                <div class="tech-tags">
+                  <span class="tag">Astro</span>
+                  <span class="tag" id="tag-biomed">Biomedical</span>
+                  <span class="tag" id="tag-light">Light Theme</span>
+                </div>
+              </div>
+            </a>
+
             {localProjects.map((project) => (
               <div class="project-card">
                 <h3>{project.data.title}</h3>
                 <p>{project.data.description}</p>
                 <div class="tech-tags">
-                  {project.data.technologies.map((tech) => (
-                    <span class="tag">{tech}</span>
-                  ))}
+                  {project.data.technologies?.map((tech) => (<span class="tag">{tech}</span>))}
                 </div>
               </div>
             ))}
@@ -81,51 +102,42 @@ const localProjects = await getCollection('projects');
 
     </div>
   </div>
-
-  <script is:inline>
-    const btn = document.getElementById('view-toggle-btn');
-    const track = document.getElementById('main-track');
-    const labelRight = document.getElementById('side-label-right');
-    const labelLeft = document.getElementById('side-label-left');
-    
-    let currentScreen = 0; // 0 = Info, 1 = Work
-
-    btn.addEventListener('click', () => {
-      if (currentScreen === 0) {
-        track.style.transform = 'translateX(-100vw)';
-        btn.style.right = 'auto';
-        btn.style.left = '20px';
-        btn.style.transform = 'translateY(-50%) rotate(180deg)';
-        
-        labelRight.style.opacity = '0';
-        setTimeout(() => {
-          labelRight.style.display = 'none';
-          labelLeft.style.display = 'block';
-          setTimeout(() => labelLeft.style.opacity = '1', 50);
-        }, 300);
-
-        currentScreen = 1;
-      } else {
-        track.style.transform = 'translateX(0vw)';
-        btn.style.left = 'auto';
-        btn.style.right = '20px';
-        btn.style.transform = 'translateY(-50%) rotate(0deg)';
-        
-        labelLeft.style.opacity = '0';
-        setTimeout(() => {
-          labelLeft.style.display = 'none';
-          labelRight.style.display = 'block';
-          setTimeout(() => labelRight.style.opacity = '1', 50);
-        }, 300);
-
-        currentScreen = 0;
-      }
-    });
+  <script>
+  import '../scripts/portofolio_slider.ts';
   </script>
 </Layout>
 
 <style>
-  /* Base Layout Setups */
+  .top-nav-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: 42px;
+    box-sizing: border-box;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+  }
+
+  .nav-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
   .slider-window {
     width: 100vw;
     height: 100vh;
@@ -138,84 +150,113 @@ const localProjects = await getCollection('projects');
     width: 200vw;
     height: 100vh;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-
-  .screen-view {
-    width: 100vw;
-    height: 100vh;
-    overflow-y: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
+    will-change: transform;
   }
 
   .content-wrapper {
     width: 100%;
     max-width: 800px;
-    padding: 3rem 2rem;
+    padding: 0 2rem 5rem 2rem; 
     font-family: sans-serif;
+    position: relative;
+    z-index: 10; 
   }
 
-  /* Floating Navigation Button Settings */
-  #view-toggle-btn {
-    position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-    transition: transform 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+  h1 {
+    font-size: 3rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #ffffff 40%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  #view-toggle-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  h2 {
+    font-size: 1.8rem;
+    color: #c084fc; 
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
-  /* Side Label Typography & Layout */
-  .side-label {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.4);
-    font-family: sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    z-index: 90;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
   }
 
-  #side-label-right {
-    right: 85px;
+  h3 {
+    color: #e2e8f0;
+    font-size: 1.3rem;
+    margin-top: 0;
   }
 
-  #side-label-left {
-    left: 85px;
+  p {
+    color: #cbd5e1;
+  }
+
+  strong {
+    color: #f3e8ff;
   }
 
   .subtitle {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 2rem;
+    font-size: 1.05rem;
   }
 
-  .bio-card, .project-card {
-    padding: 2rem;
-    border-radius: 16px;
-    line-height: 1.6;
+  .project-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .project-card {
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+  }
+
+  .featured-card {
+    border: 1px solid rgba(56, 189, 248, 0.2) !important;
+    background: rgba(56, 189, 248, 0.02) !important;
+  }
+
+  .project-card-link:hover .featured-card {
+    border-color: rgba(56, 189, 248, 0.5) !important;
+    background: rgba(56, 189, 248, 0.05) !important;
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
+    transform: scale3d(1.02, 1.02, 1);
+  }
+
+  .live-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  .project-card:hover {
+    transform: scale3d(1.02, 1.02, 1);
+    border-color: rgba(168, 85, 247, 0.35) !important; 
+    background: rgba(168, 85, 247, 0.04) !important;
+    box-shadow: 
+      0 20px 40px -5px rgba(0, 0, 0, 0.7),
+      0 0 30px rgba(168, 85, 247, 0.15);
   }
 
   .projects-grid {
@@ -227,27 +268,105 @@ const localProjects = await getCollection('projects');
   .contact-link {
     color: #38bdf8;
     text-decoration: none;
-    transition: color 0.2s ease;
+    font-weight: 500;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
   }
 
   .contact-link:hover {
     color: #7dd3fc;
-    text-decoration: underline;
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
   }
 
   .tech-tags {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    margin-top: 1rem;
+    margin-top: 1.2rem;
   }
 
   .tag {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    padding: 0.2rem 0.6rem;
+    background: rgba(168, 85, 247, 0.15);
+    color: #e9d5ff;
+    padding: 0.25rem 0.65rem;
     border-radius: 6px;
     font-size: 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    letter-spacing: 0.02em;
   }
+
+  #admin-portal-link {
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+  }
+
+  #admin-portal-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  #view-toggle-btn {
+    position: fixed;
+    top: 50%;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    z-index: 100;
+    transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.4s ease, 
+                background 0.2s,
+                box-shadow 0.2s;
+  }
+
+  #view-toggle-btn.pointing-right {
+    left: calc(100vw - 70px);
+    transform: translate3d(0, -50%, 0) rotate(180deg);
+  }
+
+  #view-toggle-btn.pointing-left {
+    left: 20px;
+    transform: translate3d(0, -50%, 0) rotate(0deg);
+  }
+  
+  #view-toggle-btn:hover {
+    background: rgba(168, 85, 247, 0.35);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+  }
+
+  .side-label {
+    position: fixed;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    color: rgba(243, 232, 255, 0.35);
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 90;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  #side-label-right { right: 85px; }
+  #side-label-left { left: 85px; }
 </style>

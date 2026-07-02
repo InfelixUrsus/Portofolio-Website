@@ -1,0 +1,82 @@
+---
+// src/pages/admin.astro
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Portfolio Admin Panel">
+  <div class="screen-view">
+    <div class="admin-card">
+      <h2>Create New Project Entry</h2>
+      <form id="project-form">
+        <div class="form-group">
+          <label>Project Title</label>
+          <input type="text" name="title" required placeholder="e.g., Dr. Pappas Clinic Website" />
+        </div>
+        
+        <div class="form-group">
+          <label>Short Description</label>
+          <textarea name="description" required placeholder="Describe the design/stack..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Live Link / Mockup Route</label>
+          <input type="text" name="link" required placeholder="e.g., /examples/doctor" />
+        </div>
+
+        <div class="form-group">
+          <label>Tags (Comma separated)</label>
+          <input type="text" name="tags" placeholder="Astro, Tailwind, Medical" />
+        </div>
+
+        <button type="submit">Publish to Content Engine</button>
+      </form>
+      <p id="status-msg"></p>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const form = document.getElementById('project-form') as HTMLFormElement | null;
+  const statusMsg = document.getElementById('status-msg') as HTMLParagraphElement | null;
+
+  if (form && statusMsg) {
+    form.addEventListener('submit', async (e: SubmitEvent) => {
+      e.preventDefault();
+      statusMsg.innerText = "Writing file...";
+
+      const formElement = e.currentTarget as HTMLFormElement;
+      const formData = new FormData(formElement);
+
+    const payload = {
+     title: (document.getElementById('title') as HTMLInputElement).value,
+        description: (document.getElementById('description') as HTMLTextAreaElement).value,
+     link: (document.getElementById('link') as HTMLInputElement).value,
+      tags: (document.getElementById('tags') as HTMLInputElement).value,
+        };
+
+      const res = await fetch('/api/create-project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        statusMsg.style.color = "#4ade80";
+        statusMsg.innerText = "✓ Project markdown written successfully! Vite will reload.";
+        formElement.reset();
+      } else {
+        statusMsg.style.color = "#f87171";
+        statusMsg.innerText = "❌ Failed to generate file.";
+      }
+    });
+  }
+</script>
+
+<style>
+  .admin-card { background: rgba(15, 23, 42, 0.6); padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); width: 450px; }
+  .form-group { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
+  label { margin-bottom: 0.4rem; font-size: 0.9rem; color: #94a3b8; }
+  input, textarea { padding: 0.6rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; font-family: sans-serif; }
+  button { background: #3b82f6; color: white; padding: 0.8rem; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 1rem; }
+  button:hover { background: #2563eb; }
+  #status-msg { margin-top: 1rem; font-size: 0.9rem; text-align: center; }
+</style>

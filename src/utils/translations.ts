@@ -1,0 +1,50 @@
+// src/utils/translations.ts
+
+export const globalTranslations = {
+  en: {
+    btnText: "Ελληνικά",
+    labelRight: "My Work →",
+    labelLeft: "← About Me",
+    title: "InfelixUrsus' Portfolio",
+    aboutHeading: "About Me",
+    aboutIntro: "I'm InfelixUrsus! I am an undergraduate Computer Science student at the University of Thessaly, focusing on applications in Biomedicine. I build software that spans from bare-metal hardware configuration to modern cloud-connected web interfaces.",
+    sysTitle: "⚙️ Lower-Level Systems",
+    sysDesc: "Optimizing code with C, C++, and MIPS Assembly.",
+    webTitle: "🌐 Modern Web & Mobile",
+    webDesc: "Crafting fluid user experiences with React, JavaScript, and native Android applications.",
+    dataTitle: "📊 Data Management",
+    dataDesc: "Designing clean architectures using SQL and Python.",
+    contactHeading: "Contact Info",
+    archSubtitle: "This high-performance platform is built on Astro's island architecture for near-zero client-side JavaScript overhead, utilizing React to drive dynamic, real-time UI interactions seamlessly.",
+    showcaseHeading: "My Showcased Work",
+    showcaseSubtitle: "A collection of things I've built using clean data structures.",
+    previewBadge: "Live Preview",
+    mockupTitle: "Dr. Alexandros Pappas Mockup",
+    mockupDesc: "A professional clinical dashboard and landing interface engineered for biomedical and cardiology practitioners.",
+    tagBiomed: "Biomedical",
+    tagLight: "Light Theme"
+  },
+  el: {
+    btnText: "English",
+    labelRight: "Έργα Μου →",
+    labelLeft: "← Σχετικά με Μένα",
+    title: "Portfolio του InfelixUrsus",
+    aboutHeading: "Σχετικά με Μένα",
+    aboutIntro: "Είμαι ο InfelixUrsus! Είμαι προπτυχιακός φοιτητής Πληροφορικής στο Πανεπιστήμιο Θεσσαλίας με κατεύθυνση σε εφαρμογές Βιοιατρικής. Αναπτύσσω λογισμικό που εκτείνεται από ρυθμίσεις υλικού bare-metal έως σύγχρονες διαδικτυακές διεπαφές συνδεδεμένες στο cloud.",
+    sysTitle: "⚙️ Συστήματα Χαμηλού Επιπέδου",
+    sysDesc: "Βελτιστοποίηση κώδικα με C, C++ και MIPS Assembly.",
+    webTitle: "🌐 Σύγχρονος Ιστός & Κινητά",
+    webDesc: "Δημιουργία ομαλών εμπειριών χρήστη με React, JavaScript και εγγενείς εφαρμογές Android.",
+    dataTitle: "📊 Διαχείριση Δεδομένων",
+    dataDesc: "Σχεδιασμός καθαρών αρχιτεκτονικών με χρήση SQL και Python.",
+    contactHeading: "Στοιχεία Επικοινωνίας",
+    archSubtitle: "Αυτή η πλατφόρμα υψηλής απόδοσης βασίζεται στην αρχιτεκτονική island του Astro για σχεδόν μηδενική επιβάρυνση JavaScript στον πελάτη, χρησιμοποιώντας React για την απρόσκοπτη καθοδήγηση δυναμικών αλληλεπιδράσεων UI.",
+    showcaseHeading: "Τα Έργα Μου",
+    showcaseSubtitle: "Μια συλλογή από εφαρμογές που έχω αναπτύξει χρησιμοποιώντας καθαρές δομές δεδομένων.",
+    previewBadge: "Ζωντανή Προεπισκόπηση",
+    mockupTitle: "Προσχέδιο Δρ. Αλέξανδρος Παππάς",
+    mockupDesc: "Μια επαγγελματική κλινική διεπαφή και σελίδα προορισμού σχεδιασμένη για επαγγελματίες υγείας και καρδιολόγους.",
+    tagBiomed: "Βιοιατρική",
+    tagLight: "Φωτεινό Θέμα"
+  }
+};

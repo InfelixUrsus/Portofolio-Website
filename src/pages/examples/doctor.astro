@@ -1,0 +1,358 @@
+---
+// src/pages/examples/doctor.astro
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dr. Alexandros Pappas | Cardiologist</title>
+  </head>
+  <body>
+    <nav class="med-nav">
+      <div class="nav-container">
+        <span class="nav-logo" id="nav-title">⚕️ Dr. A. Pappas, MD</span>
+        <div class="nav-controls">
+          <button id="lang-toggle-btn" class="lang-btn">Ελληνικά</button>
+          <span class="badge" id="mockup-badge">Demo Mockup</span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="medical-wrapper">
+      <div class="medical-container">
+        <header class="med-header">
+          <h1 id="main-name">Dr. Alexandros Pappas, MD</h1>
+          <p class="subtitle" id="main-subtitle">Cardiology & Internal Biomedical Specialist</p>
+        </header>
+
+        <section class="med-services">
+          <h3 id="services-heading">Our Services</h3>
+          <ul>
+            <li>
+              <span class="icon">❤️</span>
+              <div>
+                <strong id="service-1-title">Complete Cardiovascular Screening</strong>
+                <p id="service-1-desc">Advanced structural diagnostics, heart disease prevention, and management strategies.</p>
+              </div>
+            </li>
+            <li>
+              <span class="icon">💻</span>
+              <div>
+                <strong id="service-2-title">Electronic Health Record Integration</strong>
+                <p id="service-2-desc">Seamless, secure tracking of patient vitals and treatment histories across clinical networks.</p>
+              </div>
+            </li>
+            <li>
+              <span class="icon">📊</span>
+              <div>
+                <strong id="service-3-title">Digital Electrocardiogram (ECG) Analysis</strong>
+                <p id="service-3-desc">Precision evaluation of cardiac rhythms using modern computer-assisted biomedical tools.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <div class="med-cta">
+          <a href="#contact" class="btn-primary" id="cta-main">Schedule Consultation</a>
+          <a href="/" class="btn-secondary" id="cta-back">&larr; Back to Developer Portfolio</a>
+        </div>
+      </div>
+    </main>
+
+    <script is:inline>
+      const translations = {
+        en: {
+          navTitle: "⚕️ Dr. A. Pappas, MD",
+          badge: "Demo Mockup",
+          name: "Dr. Alexandros Pappas, MD",
+          subtitle: "Cardiology & Internal Biomedical Specialist",
+          servicesHeading: "Our Services",
+          s1Title: "Complete Cardiovascular Screening",
+          s1Desc: "Advanced structural diagnostics, heart disease prevention, and management strategies.",
+          s2Title: "Electronic Health Record Integration",
+          s2Desc: "Seamless, secure tracking of patient vitals and treatment histories across clinical networks.",
+          s3Title: "Digital Electrocardiogram (ECG) Analysis",
+          s3Desc: "Precision evaluation of cardiac rhythms using modern computer-assisted biomedical tools.",
+          ctaMain: "Schedule Consultation",
+          ctaBack: "← Back to Developer Portfolio",
+          btnText: "Ελληνικά"
+        },
+        el: {
+          navTitle: "⚕️ Δρ. Α. Παππάς, MD",
+          badge: "Δείγμα Mockup",
+          name: "Δρ. Αλέξανδρος Παππάς, MD",
+          subtitle: "Καρδιολόγος & Ειδικός Εσωτερικής Βιοιατρικής",
+          servicesHeading: "Οι Υπηρεσίες Μας",
+          s1Title: "Πλήρης Καρδιαγγειακός Έλεγχος",
+          s1Desc: "Προηγμένη δομική διαγνωστική, πρόληψη καρδιακών παθήσεων και στρατηγικές διαχείρισης.",
+          s2Title: "Ενσωμάτωση Ηλεκτρονικού Φακέλου Υγείας",
+          s2Desc: "Απρόσκοπτη, ασφαλής παρακολούθηση των ζωτικών σημείων και του ιστορικού θεραπείας των ασθενών.",
+          s3Title: "Ψηφιακή Ανάλυση Ηλεκτροκαρδιογραφήματος (ECG)",
+          s3Desc: "Αξιολόγηση ακριβείας των καρδιακών ρυθμών με χρήση σύγχρονων εργαλείων βιοιατρικής υπολογιστών.",
+          ctaMain: "Προγραμματισμός Ραντεβού",
+          ctaBack: "← Πίσω στο Portfolio",
+          btnText: "English"
+        }
+      };
+
+      let currentLang = 'en';
+      const toggleBtn = document.getElementById('lang-toggle-btn');
+
+      const elements = {
+        navTitle: document.getElementById('nav-title'),
+        badge: document.getElementById('mockup-badge'),
+        name: document.getElementById('main-name'),
+        subtitle: document.getElementById('main-subtitle'),
+        servicesHeading: document.getElementById('services-heading'),
+        s1Title: document.getElementById('service-1-title'),
+        s1Desc: document.getElementById('service-1-desc'),
+        s2Title: document.getElementById('service-2-title'),
+        s2Desc: document.getElementById('service-2-desc'),
+        s3Title: document.getElementById('service-3-title'),
+        s3Desc: document.getElementById('service-3-desc'),
+        ctaMain: document.getElementById('cta-main'),
+        ctaBack: document.getElementById('cta-back')
+      };
+
+      toggleBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'el' : 'en';
+        const data = translations[currentLang];
+
+        elements.navTitle.innerText = data.navTitle;
+        elements.badge.innerText = data.badge;
+        elements.name.innerText = data.name;
+        elements.subtitle.innerText = data.subtitle;
+        elements.servicesHeading.innerText = data.servicesHeading;
+        elements.s1Title.innerText = data.s1Title;
+        elements.s1Desc.innerText = data.s1Desc;
+        elements.s2Title.innerText = data.s2Title;
+        elements.s2Desc.innerText = data.s2Desc;
+        elements.s3Title.innerText = data.s3Title;
+        elements.s3Desc.innerText = data.s3Desc;
+        elements.ctaMain.innerText = data.ctaMain;
+        elements.ctaBack.innerText = data.ctaBack;
+        
+        toggleBtn.innerText = data.btnText;
+        document.documentElement.lang = currentLang;
+      });
+    </script>
+  </body>
+</html>
+
+<style is:inline>
+  :root {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --border: #e2e8f0;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-main) !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: var(--text-main) !important;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+  }
+
+  .med-nav {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+  }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .lang-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .lang-btn:hover {
+    background: #f1f5f9;
+    color: var(--text-main);
+  }
+
+  .medical-wrapper {
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    box-sizing: border-box;
+  }
+
+  .medical-container {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    padding: 3rem;
+    border-radius: 16px;
+    max-width: 650px;
+    width: 100%;
+    box-sizing: border-box;
+    backdrop-filter: none !important;
+  }
+
+  .badge {
+    background: #eff6ff;
+    color: var(--primary);
+    border: 1px solid #bfdbfe;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .med-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle { 
+    color: var(--text-muted); 
+    margin-top: 0.5rem; 
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+
+  .med-services { 
+    margin: 2.5rem 0; 
+  }
+
+  .med-services h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+  }
+
+  .med-services ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .med-services li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .icon {
+    background: #f1f5f9;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .med-services strong {
+    color: var(--text-main);
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .med-services p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .med-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .btn-primary {
+    display: block;
+    text-align: center;
+    background: var(--primary);
+    color: white !important;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+  }
+
+  .btn-primary:hover { 
+    background: var(--primary-hover); 
+  }
+
+  .btn-secondary {
+    display: block;
+    text-align: center;
+    color: var(--text-muted) !important;
+    padding: 0.5rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    color: var(--text-main) !important;
+  }
+
+  @media (max-width: 480px) {
+    .medical-container {
+      padding: 2rem 1.5rem;
+    }
+    .med-header h1 {
+      font-size: 1.75rem;
+    }
+  }
+</style>

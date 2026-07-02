@@ -1,18 +1,20 @@
 ---
-import '../styles/global.css'; 
+// src/layouts/Layout.astro
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>InfelixUrsus | Portfolio</title>
   </head>
   <body>
-    <div id="scroll-bg"></div>
+    <div id="scroll-bg-frame">
+      <div id="scroll-bg-canvas"></div>
+    </div>
     <div id="diamond-grid"></div>
 
     <main id="main-content">
@@ -20,26 +22,127 @@ import '../styles/global.css';
     </main>
 
     <script is:inline>
-      const bg = document.getElementById('scroll-bg');
+      const canvas = document.getElementById('scroll-bg-canvas');
+      let latestScrollPercent = 0;
+      let isTicking = false;
+
+      function updateBackground() {
+        const moveY = latestScrollPercent * -15; 
+        canvas.style.transform = `translate3d(0, ${moveY}%, 0)`;
+        isTicking = false;
+      }
 
       function handleScroll(e) {
         const container = e.target;
         const maxScroll = container.scrollHeight - container.clientHeight;
         if (maxScroll <= 0) return; 
         
-        const scrollPercent = container.scrollTop / maxScroll;
+        latestScrollPercent = container.scrollTop / maxScroll;
 
-        const hueShift = Math.floor(scrollPercent * 80); 
-        bg.style.background = `linear-gradient(${135 + (scrollPercent * 45)}deg, hsl(${240 + hueShift}, 47%, 20%) 0%, hsl(${222 - hueShift}, 47%, 10%) 100%)`;
-
-        const moveY = scrollPercent * -20; 
-        const scale = 1 + (scrollPercent * 0.05); 
-        bg.style.transform = `translateY(${moveY}px) scale(${scale})`;
+        if (!isTicking) {
+          requestAnimationFrame(updateBackground);
+          isTicking = true;
+        }
       }
 
       document.querySelectorAll('.screen-view').forEach(panel => {
-        panel.addEventListener('scroll', handleScroll);
+        panel.addEventListener('scroll', handleScroll, { passive: true });
       });
     </script>
   </body>
 </html>
+
+<style is:global>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+    font-family: sans-serif;
+    color: #fff;
+    background: transparent !important; 
+  }
+
+  #main-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 10; 
+    background: transparent !important;
+  }
+
+  #diamond-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; 
+    pointer-events: none; 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 20 L20 0 L40 20 L20 40 Z' fill='none' stroke='rgba(255, 255, 255, 0.12)' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  .screen-view {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    background: transparent !important;
+    scrollbar-width: none;            
+    -ms-overflow-style: none;         
+  }
+
+  .screen-view::-webkit-scrollbar {
+    display: none;
+  }
+
+  #scroll-bg-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+    background-color: #0b0d19;
+    contain: strict;
+  }
+
+  #scroll-bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    background-image: 
+      radial-gradient(at 10% 10%, hsl(260, 75%, 25%) 0px, transparent 60%),
+      radial-gradient(at 90% 90%, hsl(210, 80%, 20%) 0px, transparent 60%),
+      radial-gradient(at 50% 15%, hsl(290, 70%, 15%) 0px, transparent 50%);
+    filter: blur(40px);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+
+  .bio-card, .project-card {
+    padding: 2rem;
+    border-radius: 16px;
+    line-height: 1.7;
+    background: rgba(13, 17, 30, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important; 
+    box-shadow: 
+      0 10px 40px -10px rgba(0, 0, 0, 0.5),
+      inset 0 1px 1px rgba(255, 255, 255, 0.02);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.4s ease, 
+                border-color 0.4s ease !important;
+    will-change: transform;
+  }
+</style>
