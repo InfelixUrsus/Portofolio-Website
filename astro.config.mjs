@@ -3,8 +3,8 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  // 'hybrid' keeps your main portfolio pages blazing fast and static,
-  // but allows your admin API routes to run on a live server!
-  output: 'hybrid', 
+  // Changed to 'static' to match Astro 7+ standards. 
+  // Your API files with `export const prerender = false;` will still run on the live server!
+  output: 'static', 
   adapter: vercel(),
 });
