@@ -7,7 +7,6 @@ import Layout from '../layouts/Layout.astro';
     
     <div id="password-gate" class="modern-card">
       <div class="card-header">
-        <div class="lock-icon">🔒</div>
         <h2>Admin Portal</h2>
         <p>Enter your management password to unlock project controls.</p>
       </div>
@@ -57,7 +56,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  // Pure Vanilla JS selectors
+  //JS selectors
   const passwordGate = document.getElementById('password-gate');
   const adminContent = document.getElementById('admin-content');
   const loginBtn = document.getElementById('login-btn');
@@ -65,13 +64,12 @@ import Layout from '../layouts/Layout.astro';
   const form = document.getElementById('project-form');
   const statusMsg = document.getElementById('status-message');
 
-  // Session recovery check on page load
   if (sessionStorage.getItem('admin_token') && passwordGate && adminContent) {
     passwordGate.style.display = 'none';
     adminContent.style.display = 'block';
   }
 
-  // Handle Login Authentication
+  // Login Authentication
   loginBtn?.addEventListener('click', async (e) => {
     e.preventDefault();
     
@@ -103,7 +101,6 @@ import Layout from '../layouts/Layout.astro';
     }
   });
 
-  // Handle Project Markdown Generation
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!statusMsg || !form) return;
@@ -154,7 +151,6 @@ import Layout from '../layouts/Layout.astro';
 </script>
 
 <style>
-  /* 🚀 FORCEFUL SCROLL RECOVERY: Breaks layout constraints on wrapper components */
   :global(html), :global(body) {
     overflow-y: auto !important;
     overflow-x: hidden !important;

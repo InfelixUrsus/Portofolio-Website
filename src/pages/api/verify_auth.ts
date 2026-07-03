@@ -1,4 +1,3 @@
-// 🚨 TELL ASTRO TO RUN THIS ON A LIVE SERVER, NOT AS A STATIC FILE
 export const prerender = false;
 
 export async function POST({ request }) {

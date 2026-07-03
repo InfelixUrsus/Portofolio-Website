@@ -17,11 +17,9 @@ export async function POST({ request }) {
     // 3. Authenticated successfully -> Proceed with reading data
     const data = await request.json();
     
-    // Clean up title to make a safe markdown filename (e.g., "Doctor Site" -> "doctor-site.md")
     const filename = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.md';
     const targetPath = path.join(process.cwd(), 'src', 'content', 'projects', filename);
 
-    // Build the Markdown File Template Structure string
     const fileContent = `---
 title: "${data.title}"
 description: "${data.description}"
@@ -30,7 +28,6 @@ tags: [${data.tags.split(',').map(t => `"${t.trim()}"`).join(', ')}]
 ---
 ${data.content || ''}`;
 
-    // Physically write the markdown file straight into your content directory
     fs.writeFileSync(targetPath, fileContent, 'utf8');
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
