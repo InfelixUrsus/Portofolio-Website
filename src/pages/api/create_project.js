@@ -1,9 +1,20 @@
-// src/pages/api/create-project.js
 import fs from 'fs';
 import path from 'path';
+export const prerender = false; // 👈 Add this here too!
 
 export async function POST({ request }) {
   try {
+    // 1. Grab the Authorization header sent by the admin panel
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.replace('Bearer ', '');
+    const systemPassword = import.meta.env.ADMIN_PASSWORD;
+
+    // 2. Fail early if the password token is missing or incorrect
+    if (!token || token !== systemPassword) {
+      return new Response(JSON.stringify({ error: 'Forbidden: Invalid Admin Token' }), { status: 403 });
+    }
+
+    // 3. Authenticated successfully -> Proceed with reading data
     const data = await request.json();
     
     // Clean up title to make a safe markdown filename (e.g., "Doctor Site" -> "doctor-site.md")

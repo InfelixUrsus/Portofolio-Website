@@ -1,82 +1,296 @@
 ---
-// src/pages/admin.astro
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Portfolio Admin Panel">
-  <div class="screen-view">
-    <div class="admin-card">
-      <h2>Create New Project Entry</h2>
-      <form id="project-form">
-        <div class="form-group">
-          <label>Project Title</label>
-          <input type="text" name="title" required placeholder="e.g., Dr. Pappas Clinic Website" />
+
+<Layout>
+  <div class="admin-wrapper">
+    
+    <div id="password-gate" class="modern-card">
+      <div class="card-header">
+        <div class="lock-icon">🔒</div>
+        <h2>Admin Portal</h2>
+        <p>Enter your management password to unlock project controls.</p>
+      </div>
+      
+      <div class="card-body">
+        <div class="input-group">
+          <input type="password" id="admin-password-input" placeholder="••••••••" />
+        </div>
+        <button type="button" id="login-btn" class="primary-btn">Verify Access</button>
+        <p id="gate-error" class="error-text">✗ Incorrect password. Please try again.</p>
+      </div>
+    </div>
+
+    <div id="admin-content" class="modern-card wide-card" style="display: none;">
+      <div class="card-header">
+        <h2>Create New Project</h2>
+        <p>Fill out the details below to generate a new markdown project portfolio entry.</p>
+      </div>
+      
+      <form id="project-form" class="card-body">
+        <div class="form-grid">
+          <div>
+            <label for="title">Project Title</label>
+            <input type="text" id="title" placeholder="My Awesome App" required />
+          </div>
+          <div>
+            <label for="link">External Link</label>
+            <input type="text" id="link" placeholder="https://github.com/..." />
+          </div>
         </div>
         
-        <div class="form-group">
-          <label>Short Description</label>
-          <textarea name="description" required placeholder="Describe the design/stack..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Live Link / Mockup Route</label>
-          <input type="text" name="link" required placeholder="e.g., /examples/doctor" />
-        </div>
-
-        <div class="form-group">
-          <label>Tags (Comma separated)</label>
-          <input type="text" name="tags" placeholder="Astro, Tailwind, Medical" />
-        </div>
-
-        <button type="submit">Publish to Content Engine</button>
+        <label for="tags">Tags</label>
+        <input type="text" id="tags" placeholder="Astro, React, Tailwind CSS" />
+        
+        <label for="description">Short Description</label>
+        <textarea id="description" rows="3" placeholder="A brief summary of the project..." required></textarea>
+        
+        <label for="content">Markdown Content</label>
+        <textarea id="content" rows="10" placeholder="Write the full project details or case study here... (Supports Markdown)"></textarea>
+        
+        <button type="submit" class="primary-btn">Publish Project</button>
       </form>
-      <p id="status-msg"></p>
+      <p id="status-message" class="status-text"></p>
     </div>
+
   </div>
 </Layout>
 
 <script>
-  const form = document.getElementById('project-form') as HTMLFormElement | null;
-  const statusMsg = document.getElementById('status-msg') as HTMLParagraphElement | null;
+  // Pure Vanilla JS selectors
+  const passwordGate = document.getElementById('password-gate');
+  const adminContent = document.getElementById('admin-content');
+  const loginBtn = document.getElementById('login-btn');
+  const gateError = document.getElementById('gate-error');
+  const form = document.getElementById('project-form');
+  const statusMsg = document.getElementById('status-message');
 
-  if (form && statusMsg) {
-    form.addEventListener('submit', async (e: SubmitEvent) => {
-      e.preventDefault();
-      statusMsg.innerText = "Writing file...";
+  // Session recovery check on page load
+  if (sessionStorage.getItem('admin_token') && passwordGate && adminContent) {
+    passwordGate.style.display = 'none';
+    adminContent.style.display = 'block';
+  }
 
-      const formElement = e.currentTarget as HTMLFormElement;
-      const formData = new FormData(formElement);
+  // Handle Login Authentication
+  loginBtn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    
+    const passwordInput = document.getElementById('admin-password-input');
+    if (!passwordInput || !gateError || !passwordGate || !adminContent) return;
 
-    const payload = {
-     title: (document.getElementById('title') as HTMLInputElement).value,
-        description: (document.getElementById('description') as HTMLTextAreaElement).value,
-     link: (document.getElementById('link') as HTMLInputElement).value,
-      tags: (document.getElementById('tags') as HTMLInputElement).value,
-        };
+    // @ts-ignore
+    const enteredPassword = passwordInput.value;
 
-      const res = await fetch('/api/create-project', {
+    try {
+      const res = await fetch('/api/verify_auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: enteredPassword })
+      });
+
+      if (res.ok) {
+        sessionStorage.setItem('admin_token', enteredPassword);
+        passwordGate.style.display = 'none';
+        adminContent.style.display = 'block';
+        gateError.style.display = 'none';
+      } else {
+        gateError.style.display = 'block';
+        // @ts-ignore
+        passwordInput.value = '';
+      }
+    } catch (err) {
+      console.error("Auth routing failure:", err);
+    }
+  });
+
+  // Handle Project Markdown Generation
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!statusMsg || !form) return;
+
+    // Reset status messages
+    statusMsg.innerText = "Processing request...";
+    statusMsg.style.color = "var(--text-muted)";
+
+    const payload = {
+      // @ts-ignore
+      title: document.getElementById('title')?.value || '',
+      // @ts-ignore
+      description: document.getElementById('description')?.value || '',
+      // @ts-ignore
+      link: document.getElementById('link')?.value || '',
+      // @ts-ignore
+      tags: document.getElementById('tags')?.value || '',
+      // @ts-ignore
+      content: document.getElementById('content')?.value || '',
+    };
+
+    const token = sessionStorage.getItem('admin_token');
+
+    try {
+      const res = await fetch('/api/create_project', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(payload)
       });
 
       if (res.ok) {
         statusMsg.style.color = "#4ade80";
-        statusMsg.innerText = "✓ Project markdown written successfully! Vite will reload.";
-        formElement.reset();
+        statusMsg.innerText = "✓ Project markdown file written successfully!";
+        // @ts-ignore
+        form.reset();
       } else {
-        statusMsg.style.color = "#f87171";
-        statusMsg.innerText = "❌ Failed to generate file.";
+        statusMsg.style.color = "#ef4444";
+        statusMsg.innerText = "✗ Failed to create project file. Check authorization.";
       }
-    });
-  }
+    } catch (err) {
+      statusMsg.style.color = "#ef4444";
+      statusMsg.innerText = "✗ A system write error occurred.";
+    }
+  });
 </script>
 
 <style>
-  .admin-card { background: rgba(15, 23, 42, 0.6); padding: 2.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); width: 450px; }
-  .form-group { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
-  label { margin-bottom: 0.4rem; font-size: 0.9rem; color: #94a3b8; }
-  input, textarea { padding: 0.6rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; font-family: sans-serif; }
-  button { background: #3b82f6; color: white; padding: 0.8rem; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 1rem; }
-  button:hover { background: #2563eb; }
-  #status-msg { margin-top: 1rem; font-size: 0.9rem; text-align: center; }
+  /* 🚀 FORCEFUL SCROLL RECOVERY: Breaks layout constraints on wrapper components */
+  :global(html), :global(body) {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  :root {
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --accent: #7c3aed;
+    --accent-hover: #6d28d9;
+    --text-muted: #94a3b8;
+  }
+
+  .admin-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+    padding: 4rem 2rem; 
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #f8fafc;
+    box-sizing: border-box;
+  }
+
+  .modern-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  }
+
+  .wide-card {
+    max-width: 750px;
+  }
+
+  .card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .lock-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.025em;
+  }
+
+  .card-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; gap: 0; }
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+  }
+
+  .primary-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s ease;
+    margin-top: 0.5rem;
+  }
+
+  .primary-btn:hover {
+    background: var(--accent-hover);
+  }
+
+  .error-text {
+    color: #f87171;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 1.25rem 0 0 0;
+    display: none;
+    font-weight: 500;
+  }
+
+  .status-text {
+    margin-top: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+  }
 </style>
