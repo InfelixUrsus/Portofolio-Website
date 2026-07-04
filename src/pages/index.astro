@@ -101,7 +101,7 @@ const t = globalTranslations.en;
                 <span>HTML</span>
               </div>
               <div class="skill-item-card">
-                <svg viewBox="0 0 24 24" class="skill-icon" fill="currentColor"><path d="M12 2C6.48 2 2 3.79 2 6v12c0 2.21 4.48 4 10 4s10-1.79 10-4V6c0-2.21-4.48-4-10-4zm0 2c3.73 0 7.37 1.01 8 2-.63.99-4.27 2-8 2s-7.37-1.01-8-2c.63-.99 4.27-2 8-2zm8 8c0 .73-.84 1.4-2.24 1.92A13.42 13.42 0 0 1 12 15a13.42 13.42 0 0 1-5.76-1.08C4.84 13.4 4 12.73 4 12V8.33c1.47 1.05 4.54 1.67 8 1.67s6.53-.62 8-1.67V12zm0 6c0 .73-.84 1.4-2.24 1.92A13.42 13.42 0 0 1 12 21a13.42 13.42 0 0 1-5.76-1.08C4.84 19.4 4 18.73 4 18v-3.67c1.47 1.05 4.54 1.67 8 1.67s6.53-.62 8-1.67V18z"/></svg>
+                <svg viewBox="0 0 24 24" class="skill-icon" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 13.5l-4.14-5.52v5.52H11v-7h1.36l4.14 5.52v-5.52H17.5v7h-1z"/></svg>
                 <span>SQLite</span>
               </div>
               <div class="skill-item-card">
@@ -122,7 +122,7 @@ const t = globalTranslations.en;
             <h3 id="contact-heading">{t.contactHeading}</h3>
             
             <form id="portfolio-contact-form" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-              <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+              <input type="hidden" name="access_key" value="1af50bd7-b735-40e0-9666-423ada528b92" />
               <input type="checkbox" name="botcheck" class="hidden-honeypot" style="display: none;" />
 
               <div class="form-row">
@@ -146,16 +146,6 @@ const t = globalTranslations.en;
               <div id="form-feedback-message" class="form-feedback"></div>
             </form>
 
-            <p style="margin-top: 1.5rem; margin-bottom: 0;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px; color: #a855f7;">
-                <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7"></path>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                <path d="M2 17a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4H2z"></path>
-              </svg>
-              <a href="mailto:infelixursus@gmail.com" class="contact-link">infelixursus@gmail.com</a>
-              <br /><br />
-              🔗&nbsp;<a href="https://github.com/InfelixUrsus" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/InfelixUrsus</a>
-            </p>
           </div>
           <p class="subtitle" id="portfolio-architecture-subtitle">{t.archSubtitle}</p>
         </div>
@@ -241,6 +231,7 @@ const t = globalTranslations.en;
 
     syncFormRuntimeLanguage();
 
+    // 📬 Smooth AJAX Client-Side Form Submission Dispatcher
     const contactForm = document.getElementById('portfolio-contact-form') as HTMLFormElement;
     const feedbackMsg = document.getElementById('form-feedback-message');
     
@@ -250,6 +241,7 @@ const t = globalTranslations.en;
 
       const activeLang = langBtn?.textContent?.trim() === "English" ? "el" : "en";
       
+      // Setup small runtime translations for operational messages
       const statusText = {
         en: { sending: "Sending message...", success: "Message sent successfully!", error: "Something went wrong. Please try again." },
         el: { sending: "Αποστολή μηνύματος...", success: "Το μήνυμα στάλθηκε επιτυχώς!", error: "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά." }
@@ -283,6 +275,7 @@ const t = globalTranslations.en;
 </Layout>
 
 <style>
+  /* 📢 Form Submission Success/Error Feedback Banner Styles */
   .form-feedback {
     display: none;
     font-size: 0.9rem;
@@ -316,6 +309,7 @@ const t = globalTranslations.en;
     border: 1px solid rgba(239, 68, 68, 0.3);
   }
 
+  /* Skills Display Grid Styles */
   .skills-main-title {
     font-size: 1.4rem;
     color: #e2e8f0;
@@ -372,6 +366,7 @@ const t = globalTranslations.en;
     color: #d8b4fe; 
   }
 
+  /* Contact Form Container Styles */
   .contact-form,
   .contact-form * {
     box-sizing: border-box; 
@@ -456,6 +451,7 @@ const t = globalTranslations.en;
     transform: scale3d(0.99, 0.99, 1);
   }
 
+  /* Nav Controls & Layout Mechanics */
   .top-nav-controls {
     position: fixed;
     top: 20px;
